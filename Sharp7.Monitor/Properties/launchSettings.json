@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sharp7.Monitor": {
+      "commandName": "Project",
+      "commandLineArgs": "10.30.110.62 DB2050.String10.5"
+    }
+  }
+}
