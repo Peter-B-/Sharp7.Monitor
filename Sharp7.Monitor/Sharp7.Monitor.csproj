@@ -5,13 +5,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>s7mon</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Spectre.Console" Version="0.49.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.49.0" />
-    <PackageReference Include="Sharp7.Rx" Version="2.0.8-prerelease" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All"/>
+    <PackageReference Include="Sharp7.Rx" Version="2.0.9-prerelease" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
