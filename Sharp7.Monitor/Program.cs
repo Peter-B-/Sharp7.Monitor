@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace Sharp7.Monitor;
@@ -24,17 +25,22 @@ internal class Program
 
             app.Configure(config => { config.SetApplicationName("s7mon.exe"); });
 
-            return await app.RunAsync(args);
+             await app.RunAsync(args);
         }
         catch (OperationCanceledException)
         {
-            return 0;
         }
         finally
         {
             AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
             Console.CancelKeyPress -= OnCancelKeyPress;
         }
+
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine("[lightgoldenrod2_1]THANK YOU FOR PARTICIPATING IN THIS ENRICHMENT CENTER ACTIVITY![/]");
+        AnsiConsole.WriteLine();
+
+        return 0;
     }
 
     private static void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)

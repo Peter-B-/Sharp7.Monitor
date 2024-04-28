@@ -45,7 +45,8 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
 
     private static async Task RunProgram(Settings settings, CancellationToken token)
     {
-        AnsiConsole.MarkupLine($"Connecting to plc [green]{settings.PlcIp}[/], CPU [green]{settings.CpuMpiAddress}[/], rack [green]{settings.RackNumber}[/].");
+        AnsiConsole.MarkupLine($"Connecting to plc [green]{settings.PlcIp}[/], CPU [green]{settings.CpuMpiAddress}[/], rack [green]{settings.RackNumber}[/]. ");
+        AnsiConsole.MarkupLine("[gray]Press Ctrl + C to cancel.[/]");
 
         using var plc = new Sharp7Plc(settings.PlcIp, settings.RackNumber, settings.CpuMpiAddress);
 
