@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using JetBrains.Annotations;
 using Sharp7.Read;
 using Sharp7.Rx;
 using Sharp7.Rx.Enums;
-using Sharp7.Rx.Interfaces;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Spectre.Console.Rendering;
@@ -73,6 +71,7 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
 
         token.ThrowIfCancellationRequested();
 
+
         using var variableContainer = VariableContainer.Initialize(plc, settings.Variables);
 
         // Create a table
@@ -138,68 +137,4 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
             return ValidationResult.Success();
         }
     }
-}
-
-public static class CustomStyles
-{
-    public static Style Error { get; } = new Style(foreground: Color.Red);
-    public static Style Note { get; } = new(foreground: Color.DarkSlateGray1);
-}
-
-public class VariableContainer : IDisposable
-{
-    private readonly IDisposable subscriptions;
-
-    private VariableContainer(IReadOnlyList<VariableRecord> variableRecords, IDisposable subscriptions)
-    {
-        this.subscriptions = subscriptions;
-        VariableRecords = variableRecords;
-    }
-
-    public IReadOnlyList<VariableRecord> VariableRecords { get; }
-
-    public void Dispose()
-    {
-        subscriptions.Dispose();
-    }
-
-    public static VariableContainer Initialize(IPlc plc, IReadOnlyList<string> variables)
-    {
-        var records = variables
-            .Select((v, i) => new VariableRecord
-            {
-                Address = v,
-                RowIdx = i,
-                Value = new Text("init", CustomStyles.Note)
-            })
-            .ToList();
-
-        var disposables = new CompositeDisposable();
-        foreach (var rec in records)
-        {
-            try
-            {
-                var disp =
-                    plc.CreateNotification(rec.Address, TransmissionMode.OnChange)
-                        .Subscribe(
-                            data => rec.Value = data,
-                            ex => rec.Value = new Text(ex.Message, CustomStyles.Error)
-                        );
-                disposables.Add(disp);
-            }
-            catch (Exception e)
-            {
-                rec.Value = new Text(e.Message, CustomStyles.Error);
-            }
-        }
-
-        return new VariableContainer(records, disposables);
-    }
-}
-
-public class VariableRecord
-{
-    public required string Address { get; init; }
-    public required int RowIdx { get; init; }
-    public object Value { get; set; }
 }
