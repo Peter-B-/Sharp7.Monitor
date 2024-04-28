@@ -3,6 +3,8 @@ using Sharp7.Rx.Enums;
 using Sharp7.Rx.Interfaces;
 using Spectre.Console;
 
+namespace Sharp7.Monitor;
+
 public class VariableContainer : IDisposable
 {
     private readonly IDisposable subscriptions;

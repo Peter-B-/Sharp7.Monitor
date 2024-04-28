@@ -1,4 +1,4 @@
-﻿namespace Sharp7.Read;
+﻿namespace Sharp7.Monitor;
 
 public static class StringHelper
 {

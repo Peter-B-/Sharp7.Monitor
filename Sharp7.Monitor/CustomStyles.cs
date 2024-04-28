@@ -1,5 +1,7 @@
 ﻿using Spectre.Console;
 
+namespace Sharp7.Monitor;
+
 public static class CustomStyles
 {
     public static Style Error { get; } = new Style(foreground: Color.Red);
