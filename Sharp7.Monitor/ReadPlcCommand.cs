@@ -24,6 +24,10 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
         {
         }
 
+        AnsiConsole.WriteLine();
+        AnsiConsole.MarkupLine("[lightgoldenrod2_1]THANK YOU FOR PARTICIPATING IN THIS ENRICHMENT CENTER ACTIVITY![/]");
+        AnsiConsole.WriteLine();
+
         return 0;
     }
 
@@ -42,10 +46,10 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
             long => FormatNo(),
             ulong => FormatNo(),
 
-            _ => new Text(value.ToString() ?? "")
+            _ => new Text(value.ToString() ?? "", CustomStyles.Default)
         };
 
-        Markup FormatNo() => new($"[blue]0x{value:X2}[/]  {value}");
+        Markup FormatNo() => new($"[blue]0x{value:X2}[/]  {value}", CustomStyles.Default);
     }
 
     private static async Task RunProgram(Settings settings, CancellationToken token)
@@ -84,14 +88,14 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
         var table = new Table
         {
             Border = TableBorder.Rounded,
-            BorderStyle = new Style(foreground: Color.DarkGreen)
+            BorderStyle = CustomStyles.TableBorder,
         };
 
-        table.AddColumn("Variable");
-        table.AddColumn("Value");
+        table.AddColumn(new TableColumn(new Text("Variable", CustomStyles.Default)));
+        table.AddColumn(new TableColumn(new Text( "Value", CustomStyles.Default)));
 
         foreach (var record in variableContainer.VariableRecords)
-            table.AddRow(record.Address, "[gray]init[/]");
+            table.AddRow(new Text( record.Address, CustomStyles.Default), new Text("init", CustomStyles.Note));
 
         await AnsiConsole.Live(table)
             .StartAsync(async ctx =>

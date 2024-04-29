@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Spectre.Console;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using Spectre.Console.Cli;
 
 namespace Sharp7.Monitor;
@@ -8,10 +8,14 @@ internal class Program
 {
     private static readonly CancellationTokenSource cts = new();
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ReadPlcCommand))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ReadPlcCommand.Settings))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.ExplainCommand", "Spectre.Console.Cli")]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.VersionCommand", "Spectre.Console.Cli")]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.XmlDocCommand", "Spectre.Console.Cli")]
     public static async Task<int> Main(string[] args)
     {
         Console.InputEncoding = Console.OutputEncoding = Encoding.UTF8;
-
 
         Console.CancelKeyPress += OnCancelKeyPress;
         AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
@@ -25,22 +29,17 @@ internal class Program
 
             app.Configure(config => { config.SetApplicationName("s7mon.exe"); });
 
-             await app.RunAsync(args);
+            return await app.RunAsync(args);
         }
         catch (OperationCanceledException)
         {
+            return 0;
         }
         finally
         {
             AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
             Console.CancelKeyPress -= OnCancelKeyPress;
         }
-
-        AnsiConsole.WriteLine();
-        AnsiConsole.MarkupLine("[lightgoldenrod2_1]THANK YOU FOR PARTICIPATING IN THIS ENRICHMENT CENTER ACTIVITY![/]");
-        AnsiConsole.WriteLine();
-
-        return 0;
     }
 
     private static void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)
