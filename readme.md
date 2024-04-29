@@ -9,23 +9,19 @@ It displays the variable values in a table format directly in your console. The 
 
 ## Usage
 
-1. **Installation**:
-    - Clone this repository or download the `s7mon.exe` binary.
-    - Ensure you have the necessary dependencies installed (e.g., .NET runtime).
+ - Download `s7mon.exe` binary from [releases](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest).
+ 
+   This binary is self contained. No installation of .Net Runtime is required.
 
-2. **Invocation**:
-    - Open your terminal or command prompt.
-    - Navigate to the directory containing `s7mon.exe`.
-    - Run the following command:
-        ```
-        .\s7mon.exe <IP_Address> <Variable1> <Variable2> ... <VariableN>
-        ```
-        Replace `<IP_Address>` with the IP address of your Siemens S7 PLC, and list the desired variables (e.g., `DB2050.Byte1`, `DB2050.Int6`, etc.).
+ - Run the following command:
+   ```powershell
+   .\s7mon.exe <IP_Address> <Variable1> <Variable2> ... <VariableN>
+   ```
+   Replace `<IP_Address>` with the IP address of your Siemens S7 PLC, and list the desired variables (e.g., `DB2050.Byte1`, `DB2050.Int6`, etc.).
 
-3. **Output**:
-    - The program will establish a connection to the PLC and continuously display the values of the specified variables in a table format.
-    - The table will automatically update as the variable values change.
-    - Press `Ctrl + C` to exit.
+ - The program will establish a connection to the PLC and continuously display the values of the specified variables in a table format.
+ 
+   Press `Ctrl + C` to exit.
 
 
 ### Command
