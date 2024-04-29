@@ -2,6 +2,8 @@
 
 Ever needed a simple console program to read some variables from a Siemens S7 PLC?
 
+![alt text](docs/images/execute%20s7mon.gif?raw=true "run s7mon.exe demo")
+
 Sharp7Monitor is a .NET Console program written in C# that connects to a Siemens S7 PLC (Programmable Logic Controller) and reads specified variables.
 It displays the variable values in a table format directly in your console. The content of these variables is automatically updated.
 
