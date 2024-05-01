@@ -1,0 +1,120 @@
+name: .NET Publish and Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Set version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV       
+
+    - name: Build the project
+      run: |
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-x64 --output publish/non-sc/win-x64 --no-self-contained  -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r linux-x64 --output publish/non-sc/linux-x64 --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-x64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-arm64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-x64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-arm64 -p:Version=${VERSION}
+
+    - name: Create zip files
+      run: |
+        zip -j win-x64.zip publish/sc/win-x64/s7mon.exe
+        zip -j win-arm64.zip publish/sc/win-arm64/s7mon.exe
+        zip -j linux-x64.zip publish/sc/linux-x64/s7mon
+        zip -j linux-arm64.zip publish/sc/linux-arm64/s7mon
+
+    - name: Create GitHub release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
+        draft: false
+        prerelease: ${{ contains(env.VERSION, '-') }}
+
+
+    - name: Upload win-x64.zip
+      id: upload-release-asset-win-64 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./win-x64.zip
+        asset_name: 's7mon win-x64.zip'
+        asset_content_type: application/zip
+
+    - name: Upload win-arm64.zip
+      id: upload-release-asset-win-arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./win-arm64.zip
+        asset_name: 's7mon win-arm64.zip'
+        asset_content_type: application/zip
+
+    - name: Upload linux-x64.zip
+      id: upload-release-asset-linux-x64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./linux-x64.zip
+        asset_name: 's7mon linux-x64.zip'
+        asset_content_type: application/zip
+
+    - name: Upload linux-arm64.zip
+      id: upload-release-asset-linux-arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./linux-arm64.zip
+        asset_name: 's7mon linux-arm64.zip'
+        asset_content_type: application/zip
+
+    - name: Upload s7mon.exe
+      id: upload-release-asset-exe
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./publish/non-sc/win-x64/s7mon.exe
+        asset_name: 's7mon.exe'
+        asset_content_type: application/octet-stream
+
+    - name: Upload s7mon
+      id: upload-release-asset-linux
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./publish/non-sc/linux-x64/s7mon
+        asset_name: 's7mon'
+        asset_content_type: application/octet-stream
