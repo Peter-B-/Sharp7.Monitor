@@ -9,15 +9,28 @@ It displays the variable values in a table format directly in your console. The 
 
 ## Usage
 
- - Download `s7mon.exe` binary from [releases](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest).
+ - Download the zip file for your plattform from [releases](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest):
+   
+   - [Windows x64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.win-x64.zip) - If you are not sure what to download, this is most likely what you need.
+   - [Windows Arm 64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.win-arm64.zip)
+   - [Linux x64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.linux-x64.zip)
+   - [Linux Arm 64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.linux-arm64.zip)
  
-   This binary is self contained. No installation of .Net Runtime is required.
+ - Extract the `s7mon.exe`, resp. `s7mon` binary.
+
+   The binaries are self contained - no installation of .Net Runtime is required.
+  
+    
 
  - Run the following command:
    ```powershell
    .\s7mon.exe <IP_Address> <Variable1> <Variable2> ... <VariableN>
    ```
    Replace `<IP_Address>` with the IP address of your Siemens S7 PLC, and list the desired variables (e.g., `DB2050.Byte1`, `DB2050.Int6`, etc.).
+
+   You can find a description of the variable format on the [Sharp7.Rx readme](https://github.com/evopro-ag/Sharp7Reactive).
+
+   If the connection cannot be established, try setting [CPU and Rack](https://github.com/fbarresi/Sharp7/wiki/Connection#rack-and-slot) with the `--cpu` and `--rack` parameters.
 
  - The program will establish a connection to the PLC and continuously display the values of the specified variables in a table format.
  
