@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Resources;
 using System.Text;
 using Spectre.Console.Cli;
 
@@ -25,9 +26,18 @@ internal class Program
             var app =
                 new CommandApp<ReadPlcCommand>()
                     .WithData(cts.Token)
-                    .WithDescription("This program connects to a PLC and reads the variables specified as command line arguments.");
+                    .WithDescription("This program connects to a Siemens S7 PLC using RFC1006 and reads the variables specified.");
 
-            app.Configure(config => { config.SetApplicationName("s7mon.exe"); });
+
+            app.Configure(config =>
+            {
+                config.AddExample("192.0.0.10 db100.int12");
+                config.AddExample("192.0.0.10 --cpu 2 --rack 1 db100.int12");
+
+                config.SetHelpProvider(new CustomHelpProvider(config.Settings));
+
+                config.SetApplicationName(OperatingSystem.IsWindows() ? "s7mon.exe" : "s7mon");
+            });
 
             return await app.RunAsync(args);
         }

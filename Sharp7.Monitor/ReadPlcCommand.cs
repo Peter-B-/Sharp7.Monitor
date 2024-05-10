@@ -49,7 +49,7 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
             _ => new Text(value.ToString() ?? "", CustomStyles.Default)
         };
 
-        Markup FormatNo() => new($"[blue]0x{value:X2}[/]  {value}", CustomStyles.Default);
+        Markup FormatNo() => new($"[lightgoldenrod2_1]0x{value:X2}[/]  {value}", CustomStyles.Default);
     }
 
     private static async Task RunProgram(Settings settings, CancellationToken token)
@@ -124,16 +124,16 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
         public required string PlcIp { get; init; }
 
         [CommandArgument(1, "[variables]")]
-        [Description("Variables to read from S7, like Db200.Int4.\r\nFor format description see https://github.com/evopro-ag/Sharp7Reactive.")]
+        [Description("Variables to read from S7, like Db200.Int4")]
         public required string[] Variables { get; init; }
 
         [CommandOption("-c|--cpu")]
-        [Description("CPU MPI address of S7 instance.\r\nSee https://github.com/fbarresi/Sharp7/wiki/Connection#rack-and-slot.\r\n")]
+        [Description("CPU MPI address of S7 instance")]
         [DefaultValue(0)]
         public int CpuMpiAddress { get; init; }
 
         [CommandOption("-r|--rack")]
-        [Description("Rack number of S7 instance.\r\nSee https://github.com/fbarresi/Sharp7/wiki/Connection#rack-and-slot.\r\n")]
+        [Description("Rack number of S7 instance")]
         [DefaultValue(0)]
         public int RackNumber { get; init; }
 

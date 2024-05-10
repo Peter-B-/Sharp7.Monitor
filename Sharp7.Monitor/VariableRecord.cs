@@ -5,7 +5,7 @@ namespace Sharp7.Monitor;
 public class VariableRecord
 {
     private object value = new();
-    private int valueUpdated;
+    private volatile int valueUpdated;
     public required string Address { get; init; }
     public required int RowIdx { get; init; }
 

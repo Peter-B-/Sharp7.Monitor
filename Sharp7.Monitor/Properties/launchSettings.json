@@ -1,8 +1,13 @@
-{
+﻿{
   "profiles": {
     "Sharp7.Monitor": {
       "commandName": "Project",
       "commandLineArgs": "10.30.110.62 DB2050.Bit0.1 DB2050.Byte1 DB2050.Byte2.4 DB2050.Int6 DB2050.UInt8 DB2050.DInt10 DB2050.UDInt14 DB2050.LInt18 DB2050.ULInt26 DB2050.Real34 DB2050.LReal38 DB2050.String50.20 DB2050.WString80.20 DB2050.Byte130.20 "
+    },
+
+    "no args": {
+      "commandName": "Project",
+      "commandLineArgs": ""
     }
   }
 }
