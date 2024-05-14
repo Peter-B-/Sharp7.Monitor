@@ -6,7 +6,6 @@ using Sharp7.Rx;
 using Sharp7.Rx.Enums;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using Spectre.Console.Rendering;
 
 namespace Sharp7.Monitor;
 
@@ -29,27 +28,6 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
         AnsiConsole.WriteLine();
 
         return 0;
-    }
-
-    private static IRenderable FormatCellData(object value)
-    {
-        return value switch
-        {
-            IRenderable renderable => renderable,
-            Exception ex => new Text(ex.Message, CustomStyles.Error),
-            byte[] byteArray => new Text(string.Join(" ", byteArray.Select(b => $"0x{b:X2}")), CustomStyles.Hex),
-            byte => FormatNo(),
-            short => FormatNo(),
-            ushort => FormatNo(),
-            int => FormatNo(),
-            uint => FormatNo(),
-            long => FormatNo(),
-            ulong => FormatNo(),
-
-            _ => new Text(value.ToString() ?? "", CustomStyles.Default)
-        };
-
-        Markup FormatNo() => new($"[lightgoldenrod2_1]0x{value:X2}[/]  {value}", CustomStyles.Default);
     }
 
     private static async Task RunProgram(Settings settings, CancellationToken token)
@@ -105,8 +83,7 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
                     foreach (var record in variableContainer.VariableRecords)
                         if (record.HasUpdate(out var value))
                             table.Rows.Update(
-                                record.RowIdx, 1,
-                                FormatCellData(value)
+                                record.RowIdx, 1, RenderUtil.FormatCellData(value)
                             );
 
                     ctx.Refresh();
