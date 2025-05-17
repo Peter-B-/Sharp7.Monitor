@@ -24,7 +24,7 @@ internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
         }
 
         AnsiConsole.WriteLine();
-        AnsiConsole.MarkupLine("[lightgoldenrod2_1]THANK YOU FOR PARTICIPATING IN THIS ENRICHMENT CENTER ACTIVITY![/]");
+        AnsiConsole.MarkupLine("[lightgoldenrod2_1]THANK YOU FOR PARTICIPATING IN THIS ENRICHMENT CENTER ACTIVITY[/] \U0001F382");
         AnsiConsole.WriteLine();
 
         return 0;
