@@ -15,7 +15,9 @@ It displays the variable values in a table format directly in your console. The 
    - [Windows Arm 64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.win-arm64.zip)
    - [Linux x64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.linux-x64.zip)
    - [Linux Arm 64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.linux-arm64.zip)
- 
+   - [MacOS x64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.osx-x64.zip)
+   - [MacOS Arm 64](https://github.com/Peter-B-/Sharp7.Monitor/releases/latest/download/s7mon.osx-arm64.zip)
+
  - Extract the `s7mon.exe`, resp. `s7mon` binary.
 
    The binaries are self contained - no installation of .Net Runtime is required.
@@ -71,7 +73,9 @@ Use `--cpu` and `--rack` parameters to specity the S7 instance to connect to. Th
 the S7 you are using and it's configuration. You can find more information in the
 [Sharp 7 docs](https://github.com/fbarresi/Sharp7/wiki/Connection#rack-and-slot).
 
+## PLC simulation in Docker
 
+You want to try the program, but don't have a S7 at hand? Use a [SoftPlc](https://github.com/fbarresi/SoftPlc) docker container!
 
 ## Contributing
 
