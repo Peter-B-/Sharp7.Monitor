@@ -11,10 +11,8 @@ namespace Sharp7.Monitor;
 
 internal sealed class ReadPlcCommand : AsyncCommand<ReadPlcCommand.Settings>
 {
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken token)
     {
-        var token = (CancellationToken) (context.Data ?? CancellationToken.None);
-
         try
         {
             await RunProgram(settings, token);
