@@ -14,6 +14,8 @@ internal class Program
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.ExplainCommand", "Spectre.Console.Cli")]
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.VersionCommand", "Spectre.Console.Cli")]
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.XmlDocCommand", "Spectre.Console.Cli")]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.EmptyCommandSettings", "Spectre.Console.Cli")]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, "Spectre.Console.Cli.OpenCliGeneratorCommand", "Spectre.Console.Cli")]
     public static async Task<int> Main(string[] args)
     {
         Console.InputEncoding = Console.OutputEncoding = Encoding.UTF8;
