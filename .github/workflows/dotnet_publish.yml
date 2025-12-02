@@ -27,27 +27,27 @@ jobs:
 
     - name: Build the project
       run: |
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-x64 --output publish/non-sc/win-x64 --no-self-contained  -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r linux-x64 --output publish/non-sc/linux-x64 --no-self-contained -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r osx-x64 --output publish/non-sc/osx-x64 --no-self-contained -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-arm64 --output publish/non-sc/win-arm64 --no-self-contained  -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r linux-arm64 --output publish/non-sc/linux-arm64 --no-self-contained -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r osx-arm64 --output publish/non-sc/osx-arm64 --no-self-contained -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-x64 -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-arm64 -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-x64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r linux-x64   --output publish/non-sc/linux-x64   --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r osx-arm64   --output publish/non-sc/osx-arm64   --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r osx-x64     --output publish/non-sc/osx-x64     --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-arm64   --output publish/non-sc/win-arm64   --no-self-contained  -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-x64 --output publish/non-sc/win-x64 --no-self-contained  -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-arm64 -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/osx-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r osx-x64 -p:Version=${VERSION}
-        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/osx-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r osx-arm64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-x64   -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-x64   -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/osx-arm64   -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r osx-arm64   -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/osx-x64     -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r osx-x64     -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-arm64   -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-arm64   -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-x64     -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-x64     -p:Version=${VERSION}
 
     - name: Create zip files
       run: |
-        zip -j win-x64.zip publish/sc/win-x64/s7mon.exe
-        zip -j win-arm64.zip publish/sc/win-arm64/s7mon.exe
-        zip -j linux-x64.zip publish/sc/linux-x64/s7mon
         zip -j linux-arm64.zip publish/sc/linux-arm64/s7mon
-        zip -j osx-x64.zip publish/sc/osx-x64/s7mon
+        zip -j linux-x64.zip publish/sc/linux-x64/s7mon
         zip -j osx-arm64.zip publish/sc/osx-arm64/s7mon
+        zip -j osx-x64.zip publish/sc/osx-x64/s7mon
+        zip -j win-arm64.zip publish/sc/win-arm64/s7mon.exe
+        zip -j win-x64.zip publish/sc/win-x64/s7mon.exe
 
     - name: Create GitHub release
       id: create_release
