@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34728.123
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11218.70 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp7.Monitor", "Sharp7.Monitor\Sharp7.Monitor.csproj", "{9E5BF5E6-D1A1-4252-92DA-B66A04C744D0}"
 EndProject
@@ -11,6 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		.gitignore = .gitignore
 		publish.ps1 = publish.ps1
 		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{2087A0A2-8222-4FCC-9EB6-711767E0CB90}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet_publish.yml = .github\workflows\dotnet_publish.yml
 	EndProjectSection
 EndProject
 Global

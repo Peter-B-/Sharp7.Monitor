@@ -1,4 +1,4 @@
-name: .NET Publish and Release
+﻿name: .NET Publish and Release
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
         
     - name: Set version
       run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV       
@@ -29,10 +29,16 @@ jobs:
       run: |
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-x64 --output publish/non-sc/win-x64 --no-self-contained  -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r linux-x64 --output publish/non-sc/linux-x64 --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r osx-x64 --output publish/non-sc/osx-x64 --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r win-arm64 --output publish/non-sc/win-arm64 --no-self-contained  -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r linux-arm64 --output publish/non-sc/linux-arm64 --no-self-contained -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release -r osx-arm64 --output publish/non-sc/osx-arm64 --no-self-contained -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-x64 -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/win-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r win-arm64 -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-x64 -p:Version=${VERSION}
         dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/linux-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r linux-arm64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/osx-x64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r osx-x64 -p:Version=${VERSION}
+        dotnet publish ./Sharp7.Monitor/Sharp7.Monitor.csproj -c Release --output publish/sc/osx-arm64 -p:PublishTrimmed=true -p:EnableCompressionInSingleFile=true --self-contained -r osx-arm64 -p:Version=${VERSION}
 
     - name: Create zip files
       run: |
@@ -40,6 +46,8 @@ jobs:
         zip -j win-arm64.zip publish/sc/win-arm64/s7mon.exe
         zip -j linux-x64.zip publish/sc/linux-x64/s7mon
         zip -j linux-arm64.zip publish/sc/linux-arm64/s7mon
+        zip -j osx-x64.zip publish/sc/osx-x64/s7mon
+        zip -j osx-arm64.zip publish/sc/osx-arm64/s7mon
 
     - name: Create GitHub release
       id: create_release
@@ -95,6 +103,28 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./linux-arm64.zip
         asset_name: 's7mon linux-arm64.zip'
+        asset_content_type: application/zip
+
+    - name: Upload osx-x64.zip
+      id: upload-release-asset-osx-x64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./osx-x64.zip
+        asset_name: 's7mon osx-x64.zip'
+        asset_content_type: application/zip
+
+    - name: Upload osx-arm64.zip
+      id: upload-release-asset-osx-arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./osx-arm64.zip
+        asset_name: 's7mon osx-arm64.zip'
         asset_content_type: application/zip
 
     - name: Upload s7mon.exe
